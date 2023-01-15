@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta cha]rset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stopwatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .box {
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            background-color: rgb(20, 20, 43);
+            position: absolute;
+        }
+        
+        .boxinner {
+            position: relative;
+            top: 40%;
+        }
+        
+        p {
+            top: -30px;
+        }
+        
+        .boxinner p {
+            position: relative;
+            display: inline-block;
+            color: aquamarine;
+            z-index: 9999;
+            font-size: 48px;
+            margin-bottom: 120px;
+        }
+        
+        .boxinner p::before {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background-color: #151538;
+            z-index: -1;
+            border-radius: 50%;
+            left: -15%;
+            top: -180%;
+            animation-name: shine;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+        }
+        
+        button {
+            background-color: #222242;
+            padding: 10px 38px;
+            border: 1px solid gray;
+            border-radius: 22px;
+            color: white;
+            transition: all .2s ease;
+            outline: 0;
+        }
+        
+        button:hover {
+            color: #f68400;
+            box-shadow: 0px 4px 30px -7px #f68400;
+            border-color: #f68400;
+        }
+        
+        button:not(:last-child) {
+            margin-right: 22px;
+        }
+        
+        @keyframes shine {
+            0%,
+            100% {
+                box-shadow: 0px 0px 52px -16px rgba(33, 214, 57, 0.5);
+            }
+            50% {
+                box-shadow: 0px 0px 52px 6px rgba(33, 214, 57, 0.5);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="boxinner">
+            <p>
+                <span class="mint">00</span>:
+                <span class="seconds">00</span>:
+                <span class="tens">00</span>
+
+            </p>
+            <div class="butt">
+                <button class="btn-start">Start</button>
+                <button class="btn-stop">Stop</button>
+                <button class="btn-reset">Reset</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<script>
+    let mint = 00;
+    let seconds = 00;
+    let tens = 00;
+
+    let getmint = document.querySelector('.mint');
+    let getSeconds = document.querySelector('.seconds');
+    let getTens = document.querySelector('.tens');
+    let btnStart = document.querySelector('.btn-start');
+    let btnStop = document.querySelector('.btn-stop');
+    let btnReset = document.querySelector('.btn-reset');
+
+
+    btnStart.addEventListener('click', () => {
+
+        interval = setInterval(startTimer, 10)
+    })
+    btnStop.addEventListener('click', () => {
+
+        clearInterval(interval);
+    })
+    btnReset.addEventListener('click', () => {
+
+        clearInterval(interval);
+
+        tens = '00';
+        seconds = '00';
+        mint = '00';
+        getSeconds.innerHTML = seconds;
+        getTens.innerHTML = tens;
+        getmint.innerHTML = mint;
+
+
+    })
+
+    function startTimer() {
+        tens++;
+
+        if (tens <= 9) {
+            getTens.innerHTML = '0' + tens;
+        }
+        if (tens > 9) {
+            getTens.innerHTML = tens;
+        }
+        if (tens > 99) {
+            seconds++;
+            getSeconds.innerHTML = '0' + seconds;
+            tens = 0;
+            getTens.innerHTML = '0' + 0;
+        }
+        if (seconds > 9) {
+            getSeconds.innerHTML = seconds;
+        }
+
+
+        if (seconds > 59) {
+            mint++;
+            getmint.innerHTML = '0' + mint;
+            seconds = 0;
+            getSeconds.innerHTML = '0' + 0;
+
+        }
+        if (mins > 9) {
+            getSeconds.innerHTML = mint;
+        }
+    }
+</script>
+
+</html>

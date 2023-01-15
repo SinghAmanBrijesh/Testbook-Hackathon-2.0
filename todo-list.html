@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background: rgb(207, 202, 202);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            padding: 2rem 1rem;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: rgb(2, 2, 2);
+        }
+        
+        header h1 {
+            text-align: center;
+            font-weight: 300;
+            font-size: 2.5rem;
+            color: rgb(255, 255, 255);
+            margin-bottom: 1rem;
+        }
+        
+        #new-task-form {
+            display: flex;
+        }
+        
+        input,
+        button {
+            appearance: none;
+            border: none;
+            outline: none;
+            background: none;
+        }
+        
+        .a {
+            margin: 150px;
+        }
+        
+        #new-task-input {
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            border-radius: 10px;
+            padding: 1rem;
+            color: black;
+            background: linear-gradient(rgb(8, 238, 219), rgb(54, 112, 114));
+            flex: 1 1 0%;
+        }
+        
+        #new-task-input ::placeholder {
+            color: gray;
+        }
+        
+        #new-task-submit {
+            font-size: 16px;
+            font-weight: ;
+            background: linear-gradient(white, black, white);
+            color: whitesmoke;
+            float: left;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.5s;
+            border-radius: 10px;
+            width: 140px;
+        }
+        
+        #new-task-submit:hover {
+            background: linear-gradient(white, black);
+            opacity: 0.8;
+        }
+        
+        #new-task-submit:active {
+            opacity: 0.9;
+        }
+        
+        main {
+            flex: 1 1 0%;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .task-list {
+            padding: 1rem;
+            background-color: white;
+        }
+        
+        .task-list h2 {
+            font-size: 1.3rem;
+            font-weight: 550;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        #tasks .task {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgb(211, 208, 208);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        #tasks .task .content .text {
+            background-color: black;
+            color: white;
+            font-size: 1.125rem;
+            width: 150px;
+            display: block;
+            transition: 0.4s;
+            border-radius: 10px;
+        }
+        
+        #tasks .task .content .text:not(:read-only) {
+            color: rgb(145, 9, 32);
+        }
+        
+        #tasks .task .actions {
+            display: flex;
+            margin: 0 -0.5rem;
+        }
+        
+        .task .actions button {
+            cursor: pointer;
+            margin: 0 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.4s;
+        }
+        
+        .task .actions button:hover {
+            background: linear-gradient(white, black);
+            opacity: 0.8;
+        }
+        
+        .task .actions buttont:active {
+            opacity: 0.6;
+        }
+        
+        .task .actions .edit {
+            background: linear-gradient(rgb(117, 137, 226), rgb(8, 138, 88));
+            ;
+            color: bisque;
+            border-radius: 10px;
+        }
+        
+        .task .actions .delete {
+            background: linear-gradient(rgb(117, 137, 226), rgb(8, 138, 88));
+            ;
+            color: bisque;
+            border-radius: 10px;
+        }
+        
+        .hn {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="a">
+        <header>
+            <h1> TODO LIST</h1>
+            <form id="new-task-form">
+                <input type="text" id="new-task-input" placeholder="tasks..">
+                <input type="submit" id="new-task-submit" value="Add">
+            </form>
+        </header>
+
+        <main>
+            <section class="task-list">
+                <h2 class="hn">LIST OF TASKS</h2>
+                <div id="tasks">
+                    <!-- <div class="task">
+                    <div class="content">
+                        <input type="text" class="text" value="My shiny task" readonly />
+                    </div>
+                    <div class="actions">
+                        <button class="edit" class="popup-btn accept">Edit</button>
+                        
+                        <button class="delete">Delete</button>
+                    </div>
+
+                </div>
+                -->
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        window.addEventListener('load', () => {
+            const form = document.querySelector("#new-task-form");
+            const input = document.querySelector("#new-task-input");
+            const list_el = document.querySelector("#tasks");
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+
+
+                const task = input.value;
+                if (!task) {
+                    alert("Please fill out the task");
+                    return;
+                }
+                const task_el = document.createElement("div");
+                task_el.classList.add("task");
+
+                const task_content_el = document.createElement("div");
+                task_content_el.classList.add("content");
+
+
+
+                task_el.appendChild(task_content_el);
+
+                const task_input_el = document.createElement("input");
+                task_input_el.classList.add("text");
+                task_input_el.type = "text";
+                task_input_el.value = task;
+                task_input_el.setAttribute("readonly", "readonly");
+
+                task_content_el.appendChild(task_input_el);
+
+                const task_actions_el = document.createElement("div");
+                task_actions_el.classList.add("actions");
+
+                const task_edit_el = document.createElement("button");
+                task_edit_el.classList.add("edit");
+                task_edit_el.innerHTML = "Edit";
+
+
+                const task_delete_el = document.createElement("button");
+                task_delete_el.classList.add("delete");
+                task_delete_el.innerHTML = "Delete";
+
+
+                task_actions_el.appendChild(task_edit_el);
+                task_actions_el.appendChild(task_delete_el);
+
+                task_el.appendChild(task_actions_el);
+
+                list_el.appendChild(task_el);
+                input.value = "";
+
+                task_edit_el.addEventListener('click', () => {
+                    if (task_edit_el.innerText.toLowerCase() == "edit") {
+                        task_input_el.removeAttribute("readonly");
+                        task_input_el.focus();
+                        task_edit_el.innerText = "Save";
+
+                    } else {
+                        task_input_el.setAttribute("readonly", "readonly");
+                        task_edit_el.innerText = "Edit";
+                    }
+                });
+
+                task_delete_el.addEventListener('click', () => {
+                    list_el.removeChild(task_el);
+                });
+
+
+            })
+        })
+    </script>
+</body>
+
+</html>
